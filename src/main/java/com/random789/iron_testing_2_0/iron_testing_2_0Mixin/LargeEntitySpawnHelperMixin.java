@@ -1,17 +1,12 @@
-package com.random789.iron_testing_2_0.mixin;
+package com.random789.iron_testing_2_0.iron_testing_2_0Mixin;
 
 import com.nettakrim.client_execution.ExecutionNetwork;
-import com.random789.iron_testing_2_0.Iron_testing_2_0;
-import com.random789.iron_testing_2_0.Settings;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LargeEntitySpawnHelper;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
-import net.minecraft.text.TextColor;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
@@ -45,7 +40,7 @@ public abstract class LargeEntitySpawnHelperMixin {
 	) {
 		BlockPos.Mutable spawnPos = pos.mutableCopy();
 
-		for (int failures = 0; failures < tries; failures++) {
+		for (int i = 0; i < tries; i++) {
 			int j = MathHelper.nextBetween(world.random, -horizontalRange, horizontalRange);
 			int k = MathHelper.nextBetween(world.random, -horizontalRange, horizontalRange);
 			spawnPos.set(pos, j, verticalRange, k);
@@ -57,33 +52,22 @@ public abstract class LargeEntitySpawnHelperMixin {
 					if (mobEntity.canSpawn(world, reason) && mobEntity.canSpawn(world)) {
 						world.spawnEntityAndPassengers(mobEntity);
 						mobEntity.playAmbientSound();
-						if (Settings.shouldMonitorSpawnAttempts) {
-							Iron_testing_2_0.LOGGER.info("Successful spawn at {}", spawnPos);
-							for (ServerPlayerEntity player : world.getPlayers()) {
-								ExecutionNetwork.onExecuteClient(
-									player, String.format("cglow block %d %d %d 30 color green", spawnPos.getX(), spawnPos.getY(), spawnPos.getZ()));
-								player.sendMessageToClient(Text.literal(String.format("Successful spawn. Failed %d attempts", failures)).styled(style -> style.withColor(Formatting.GREEN)), false);
-							}
+						System.out.println("Successful spawn at " + spawnPos);
+						for (ServerPlayerEntity player : world.getPlayers()) {
+							ExecutionNetwork.onExecuteClient(
+								player, String.format("cglow block %d %d %d 300 color green", spawnPos.getX(),spawnPos.getY(), spawnPos.getZ()));
 						}
-
 						return Optional.of(mobEntity);
 					}
 
 					mobEntity.discard();
 				}
 			}
-			if (Settings.shouldMonitorSpawnAttempts) {
-				Iron_testing_2_0.LOGGER.info("Failed spawn at {}", spawnPos);
-				for (ServerPlayerEntity player : world.getPlayers()) {
-					ExecutionNetwork.onExecuteClient(
-						player, String.format("cglow block %d %d %d 30 color red", spawnPos.getX(), spawnPos.getY(), spawnPos.getZ()));
-				}
+			System.out.println("Failed spawn at " + spawnPos);
+			for (ServerPlayerEntity player : world.getPlayers()) {
+				ExecutionNetwork.onExecuteClient(
+					player, String.format("cglow block %d %d %d 300 color red", spawnPos.getX(),spawnPos.getY(), spawnPos.getZ()));
 			}
-
-
-		}
-		for (ServerPlayerEntity player : world.getPlayers()) {
-			player.sendMessageToClient(Text.literal(String.format("Failed %d attempts", tries)).styled(style -> style.withColor(Formatting.RED)), false);
 		}
 
 		return Optional.empty();
