@@ -4,6 +4,7 @@
     "package": "com.random789.iron_testing_2_0.mixin",
     "compatibilityLevel": "JAVA_21",
     "mixins": [
+        "LargeEntitySpawnHelperMixin"
     ],
     "injectors": {
         "defaultRequire": 1
