@@ -30,7 +30,7 @@ public class EfficiencyTesterCommand {
 				)
 		);
 		return 0;
-	};
+	}
 
 	private static int execute(int numGolems) {
 		if (numGolems < 0) {

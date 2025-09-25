@@ -1,8 +1,6 @@
 package com.random789.iron_testing_2_0.command;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.random789.iron_testing_2_0.Settings;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
