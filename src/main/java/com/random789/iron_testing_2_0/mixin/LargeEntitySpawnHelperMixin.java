@@ -10,7 +10,6 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
-import net.minecraft.text.TextColor;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -22,11 +21,13 @@ import java.util.Optional;
 
 @Mixin(LargeEntitySpawnHelper.class)
 public abstract class LargeEntitySpawnHelperMixin {
+
+
+
 	@Shadow
 	protected static boolean findSpawnPos(ServerWorld world, int verticalRange, BlockPos.Mutable pos, LargeEntitySpawnHelper.Requirements requirements) {
 		return false;
 	}
-
 	/**
 	 * @author
 	 * @reason
@@ -57,6 +58,7 @@ public abstract class LargeEntitySpawnHelperMixin {
 					if (mobEntity.canSpawn(world, reason) && mobEntity.canSpawn(world)) {
 						world.spawnEntityAndPassengers(mobEntity);
 						mobEntity.playAmbientSound();
+						Iron_testing_2_0.spawns += 1;
 						if (Settings.shouldMonitorSpawnAttempts) {
 							if (Settings.shouldLogSpawnAttempts) {
 								Iron_testing_2_0.LOGGER.info("Successful spawn at {}", spawnPos);
@@ -73,11 +75,8 @@ public abstract class LargeEntitySpawnHelperMixin {
 									player.sendMessageToClient(Text.literal(String.format("Successful spawn. Failed %d attempts", failures)).styled(style -> style.withColor(Formatting.GREEN)), false);
 								}
 							}
-						}
-
-
-					}
-
+								}
+							}
 					return Optional.of(mobEntity);
 				}
 

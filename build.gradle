@@ -102,6 +102,17 @@ jar {
 	}
 }
 
+tasks.register("fixRunResources") {
+	description = "Fix Run Resources"
+	dependsOn("processResources")
+	doLast {
+		copy {
+			from("build/resources/main/fabric.mod.json")
+			into("out/production/resources")
+		}
+	}
+}
+
 // configure the maven publication
 publishing {
 	publications {
