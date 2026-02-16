@@ -13,7 +13,6 @@ public class EfficiencyTesterCommand {
 	public static int register(CommandDispatcher<ServerCommandSource> dispatcher) {
 		dispatcher.register(
 			CommandManager.literal("efficiencytester")
-				.requires(source -> source.hasPermissionLevel(2))
 				.then(
 					CommandManager.literal("Golems")
 						.then(

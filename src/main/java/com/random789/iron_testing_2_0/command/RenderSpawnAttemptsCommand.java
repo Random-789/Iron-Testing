@@ -10,7 +10,6 @@ public class RenderSpawnAttemptsCommand {
 	public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
 		dispatcher.register(
 			CommandManager.literal("renderspawnattempts")
-				.requires(CommandManager.requirePermissionLevel(2))
 				.then(
 					CommandManager.literal("on")
 						.executes(context -> {

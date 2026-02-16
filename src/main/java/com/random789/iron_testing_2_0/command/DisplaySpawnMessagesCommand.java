@@ -10,7 +10,6 @@ public class DisplaySpawnMessagesCommand {
 	public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
 		dispatcher.register(
 			CommandManager.literal("displayspawnmessages")
-				.requires(CommandManager.requirePermissionLevel(2))
 				.then(
 					CommandManager.literal("on")
 						.executes(context -> {
